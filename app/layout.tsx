@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Nunito_Sans} from "next/font/google";
 import "./globals.css";
+import AppWrapper from "@/components/AppWrapper";
 
 const poppins = Nunito_Sans({ subsets: ['latin'], weight: ['400', '700'] });
 
@@ -29,7 +30,10 @@ export default function RootLayout({
       <body
         className={`${poppins} antialiased`}
       >
-        {children}
+        <AppWrapper>
+          {children}
+        </AppWrapper>
+        
       </body>
     </html>
   );
