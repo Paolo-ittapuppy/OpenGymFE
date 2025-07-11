@@ -1,8 +1,11 @@
 'use client';
 
+import axios from 'axios';
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import GoogleSignInButton from './OAuthButton';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
 export default function LoginForm({
   mode = 'login',
@@ -17,12 +20,12 @@ export default function LoginForm({
   const [message, setMessage] = useState('');
 
   const handleSubmit = async () => {
-    const { error } = await supabase.auth.signInWithOtp({ email });
-
-    if (error) setMessage(error.message);
-    else {
-      setMessage('Check your email to continue!');
+    try {
+      const { data } = await axios.post(`${API_URL}/api/auth/send-magic-link`, { email });
+      setMessage(data.message || 'Check your email to continue!');
       onSuccess?.();
+    } catch (error: any) {
+      setMessage(error.response?.data?.error || 'Failed to send magic link');
     }
   };
 

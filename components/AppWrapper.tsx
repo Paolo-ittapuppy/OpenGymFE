@@ -19,11 +19,11 @@ export default function AppWrapper({ children }: { children: React.ReactNode }) 
 
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
-        .select('username, full_name')
+        .select('username, full_name, has_completed_profile')
         .eq('id', userData.user.id)
         .single();
-
-      if (profileError || !profile?.username || !profile?.full_name) {
+      console.log('Profile data:', profile);
+      if (!profile?.has_completed_profile) {
         setShowProfileForm(true);
       }
 
@@ -41,7 +41,8 @@ export default function AppWrapper({ children }: { children: React.ReactNode }) 
     <>
       {children}
       {showProfileForm && (
-        <CompleteProfileForm onSubmitted={() => setShowProfileForm(false)} />
+        <CompleteProfileForm onSubmitted={() => setShowProfileForm(false)}
+        onCancel={() => setShowProfileForm(false)} />
       )}
     </>
   );

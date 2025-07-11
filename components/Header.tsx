@@ -14,7 +14,7 @@ export default function Header() {
       if (data.user) {
         setIsSignedIn(true);
         setUser({
-          name: data.user.user_metadata.full_name || data.user.email || 'User',
+          name: data.user.user_metadata.full_name || data.user.id || 'User',
           avatarUrl:
             data.user.user_metadata.avatar_url ||
             'https://i.pravatar.cc/40?u=' + data.user.id,
