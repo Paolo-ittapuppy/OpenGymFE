@@ -30,7 +30,7 @@ export default function LoginForm({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 text-black">
     <GoogleSignInButton />
       <input
         className="border rounded px-4 py-2 w-full"

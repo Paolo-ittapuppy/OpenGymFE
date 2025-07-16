@@ -81,7 +81,7 @@ export default function Header() {
                 alt={user?.name}
                 className="w-10 h-10 rounded-full"
               />
-              <span className="font-semibold">{user?.name}</span>
+              <span className="font-semibold text-black">{user?.name}</span>
             </div>
 
             {showDropdown && (

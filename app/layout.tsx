@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Nunito_Sans} from "next/font/google";
 import "./globals.css";
 import AppWrapper from "@/components/AppWrapper";
-
+import AuthProvider from "@/components/AuthProvider";
+import Header from "@/components/Header";
 const poppins = Nunito_Sans({ subsets: ['latin'], weight: ['400', '700'] });
 
 const geistSans = Geist({
@@ -30,10 +31,15 @@ export default function RootLayout({
       <body
         className={`${poppins} antialiased`}
       >
+
+        <AuthProvider>
         <AppWrapper>
+          <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-red-100 px-6 py-10">
+          <Header/>
           {children}
+          </div>
         </AppWrapper>
-        
+        </AuthProvider>
       </body>
     </html>
   );

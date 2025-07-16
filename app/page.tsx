@@ -1,13 +1,10 @@
 import Image from "next/image";
-import Header from "@/components/Header";
 import Link from 'next/link';
 
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-red-100 px-6 pt-6">
-      {/* Header */}
-      <Header />
 
       {/* Blurb and buttons */}
       <section className="text-center max-w-4xl mx-auto mt-16">

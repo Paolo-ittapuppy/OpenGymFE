@@ -4,14 +4,17 @@ import { supabase } from '@/lib/supabase';
 
 export default function GoogleSignInButton() {
   const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: 'http://localhost:3000', // change this to your deployed URL in production
-      },
-    });
-    if (error) console.error('Google login error:', error.message);
-  };
+  const next = window.location.pathname; // or include query string if needed
+
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: `http://localhost:3000/auth/callback?next=${encodeURIComponent(next)}`,
+    },
+  });
+
+  if (error) console.error('Google login error:', error.message);
+};
 
   return (
     <button

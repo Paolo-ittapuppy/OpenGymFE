@@ -1,10 +1,11 @@
 'use client';
 import { useState } from 'react';
 import axios from 'axios';
+import { supabase } from '@/lib/supabase';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 
-export default function TeamCreator({ sessionId }: { sessionId: string }) {
+export default function TeamCreator({ sessionId }: { sessionId: string}) {
   const [teamName, setTeamName] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -15,11 +16,15 @@ export default function TeamCreator({ sessionId }: { sessionId: string }) {
     try {
       setStatus('loading');
       setMessage('');
+      const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        const token = session?.access_token;
 
       await axios.post(
-        `${API_URL}/api/team/create`,
-        { sessionId, team_name: teamName.trim() }
-        // , { headers: { Authorization: `Bearer ${token}` } }  // add if needed
+        `${API_URL}/api/session/${sessionId}/create-team`,
+        { team_name: teamName.trim() }
+        , { headers: { Authorization: `Bearer ${token}` } }  // add if needed
       );
 
       setStatus('success');
@@ -37,7 +42,7 @@ export default function TeamCreator({ sessionId }: { sessionId: string }) {
         value={teamName}
         onChange={(e) => setTeamName(e.target.value)}
         placeholder="Team name"
-        className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full border border-black px-4 py-3 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
 
       <button

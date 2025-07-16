@@ -58,7 +58,6 @@ export default function JoinSessionPage() {
   /* ───────────── UI ───────────── */
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-red-100 px-6 py-10">
-    <Header />
 
     <div className="flex flex-col items-center justify-center px-6 mt-10">
       <h1 className="text-4xl font-extrabold mb-10 text-gray-900">Join a Session</h1>
