@@ -34,7 +34,7 @@ export default function RootLayout({
 
         <AuthProvider>
         <AppWrapper>
-          <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-red-100 px-6 py-10">
+          <div className="min-h-screen text-black bg-gradient-to-br from-yellow-100 to-red-100 px-6 py-10">
           <Header/>
           {children}
           </div>

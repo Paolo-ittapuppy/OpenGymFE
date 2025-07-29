@@ -1,6 +1,7 @@
 'use client';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { Session, SupabaseClient } from '@supabase/supabase-js';
 
 // ─── types ─────────────────────────────────────────────
 type UserInfo = {
@@ -12,12 +13,14 @@ type UserInfo = {
 type AuthContextShape = {
   user: UserInfo | null ;
   loading: boolean;
+  token: string | null;
 };
 
 // ─── context ───────────────────────────────────────────
 const AuthContext = createContext<AuthContextShape>({
   user: null,
   loading: true,
+  token: null,
 });
 
 export function useAuth() {
@@ -28,6 +31,8 @@ export function useAuth() {
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState(true);
+const [session, setSession] = useState<Session | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   // initial check
   useEffect(() => {
@@ -37,6 +42,17 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       }
       setLoading(false);
     });
+
+    const getSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      setSession(session);
+      setToken(session?.access_token || null);
+      setLoading(false);
+    };
+    getSession()
 
     // live listener (login / logout / tab focus)
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -60,7 +76,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, token }}>
       {children}
     </AuthContext.Provider>
   );
